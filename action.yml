@@ -1,0 +1,20 @@
+name: 'Node Test Pipeline'
+description: 'Run python code tests and capture test coverage'
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash
+    - name: "Test"
+      run: |
+        source run_test.sh
+      shell: bash
+      env:
+        ACTION_PATH: ${{ github.action_path }}
+
+    - name: 'Linter'
+      run: source run_linter.sh
+      shell: bash
+      env:
+        ACTION_PATH: ${{ github.action_path }}
